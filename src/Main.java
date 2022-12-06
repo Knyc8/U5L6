@@ -12,7 +12,15 @@ public class Main {
         BagelShop bagelShop = new BagelShop(username + "'s Bagel Shop", 1000, 11, bank);
         BankApp app = new BankApp(card1, bank, bagelShop);
 
-        System.out.println(app);
+        System.out.print(app);
+        String event = scan.nextLine();
+        while (!event.equalsIgnoreCase("4") && !event.equalsIgnoreCase("5") && !event.equalsIgnoreCase("l")) {
+            event = scan.nextLine();
+        }
+        while (!event.equalsIgnoreCase("l")) {
+            System.out.println(app.action(event));
+            event = scan.nextLine();
+        }
     }
 
     public static String generatePin(){
