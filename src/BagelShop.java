@@ -14,6 +14,7 @@ public class BagelShop
 
     /** The Bank where the BagelShop has a vendor deposit account */
     private Bank vendorBank;
+    public static int bagelBought = 0;
 
     /** Creates a new BagelShop
      @param name  The name of the BagelShop
@@ -45,6 +46,7 @@ public class BagelShop
      */
     public boolean payForBagels(CreditCard card, int quantity, String cardPIN)
     {
+        bagelBought++;
         if (card.checkPIN(cardPIN))
         {
             int totalPrice = bagelPrice * quantity;
@@ -89,6 +91,11 @@ public class BagelShop
     {
         vendorBank.vendorDeposit(profit);
         profit = 0;
+    }
+
+    public int getProfit()
+    {
+        return profit;
     }
 
     public String toString()

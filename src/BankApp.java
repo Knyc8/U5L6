@@ -3,38 +3,100 @@ public class BankApp {
     private CreditCard card2;
     private Bank bank;
     private BagelShop bagelShop;
-    private int numOfCards;
+    private String buyCard;
+    private String returnCard;
     public BankApp(CreditCard card, Bank bank, BagelShop bagelShop)
     {
         this.card1 = card;
         this.bank = bank;
         this.bagelShop = bagelShop;
-        numOfCards = 1;
+        buyCard = "";
+        returnCard = "";
     }
 
-    public void openCard()
+    public void purchaseBagel(int quantity)
     {
-        numOfCards++;
-        card2 = new CreditCard(card1.getAccountHolder(), Main.generatePin());
+        if (CreditCard.numOfCards == 1)
+        {
+            System.out.println("Purchase Successful: " + bagelShop.payForBagels(card1, quantity, card1.getPin()));
+        }
+        else if (buyCard.equalsIgnoreCase(""))
+        {
+            System.out.println("Please set a card for purchases and returns");
+        }
+        else {
+            if (buyCard.equalsIgnoreCase("1")) {
+                System.out.println("Purchase Successful: " + bagelShop.payForBagels(card1, quantity, card1.getPin()));
+            }
+            else
+            {
+                System.out.println("Purchase Successful: " + bagelShop.payForBagels(card2, quantity, card2.getPin()));
+            }
+        }
     }
 
-    public String action(String event)
+    public void returnBagel(int quantity)
     {
-        if (event.equals("4"))
+        if (CreditCard.numOfCards == 1)
         {
-            if (numOfCards > 1) return card1.toString() + "\n\n" + card2.toString();
-            return card1.toString();
+            System.out.println("Return Successful: " + bagelShop.returnBagels(card1, quantity, card1.getPin()));
         }
-        if (event.equals("5"))
+        else if (returnCard.equalsIgnoreCase(""))
         {
-            openCard();
-            return "Successfully created a new card!";
+            System.out.println("Please set a card for purchases and returns");
         }
-        if (event.equalsIgnoreCase("l"))
+        else {
+            if (returnCard.equalsIgnoreCase("1")) {
+                System.out.println("Return Successful: " + bagelShop.returnBagels(card1, quantity, card1.getPin()));
+            }
+            else
+            {
+                System.out.println("Return Successful: " + bagelShop.returnBagels(card2, quantity, card2.getPin()));
+            }
+        }
+    }
+    public void openCard(String pin)
+    {
+        card2 = new CreditCard(card1.getAccountHolder(), pin);
+        buyCard = "";
+        returnCard = "";
+    }
+
+    public CreditCard getCard1()
+    {
+        return card1;
+    }
+
+    public CreditCard getCard2()
+    {
+        return card2;
+    }
+
+    public void selectCards(String buyCard, String returnCard)
+    {
+        this.buyCard = buyCard;
+        this.returnCard = returnCard;
+    }
+
+    public String compareCreditCards()
+    {
+        if (card1.getBalanceOwed() == card2.getBalanceOwed())
         {
-            return "You left the app!";
+            return "none";
         }
-        return "Nothing Happened!";
+        if (card1.getBalanceOwed() < card2.getBalanceOwed())
+        {
+            return card1.getPin();
+        }
+        else
+        {
+            return card2.getPin();
+        }
+    }
+
+    public void depositProfits()
+    {
+        bagelShop.depositProfits();
     }
 
     public String toString()
@@ -45,13 +107,14 @@ public class BankApp {
                 Bagel Shop:
                 1. Purchase a bagel
                 2. Return a bagel
-                3. Check inventory
+                3. Check business
                 
                 Bank:
                 4. Check credit card info
                 5. Open a new credit card
                 6. Compare credit card balances
                 7. Deposit profits
+                8. Select purchase and return cards
                 
                 Type (l) to leave
                 ------------------------------------------

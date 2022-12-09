@@ -3,12 +3,14 @@ public class CreditCard
     private String accountHolder;
     private String personalPIN;
     private int balanceOwed;
+    public static int numOfCards = 0;
 
     public CreditCard(String name, String personalPIN)
     {
         accountHolder = name;
         this.personalPIN = personalPIN;
         balanceOwed = 0;
+        numOfCards++;
     }
 
     public String getAccountHolder()
@@ -19,6 +21,11 @@ public class CreditCard
     public int getBalanceOwed()
     {
         return balanceOwed;
+    }
+
+    public String getPin()
+    {
+        return personalPIN;
     }
 
     /** Increases balanceOwed by the amount
